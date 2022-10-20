@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo HABITICA-PYTOOLS
 
 
 USER_ID=$(cat credentials.json | jq .USER_ID | sed 's/"//g')
