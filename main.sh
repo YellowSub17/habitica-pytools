@@ -11,16 +11,16 @@ echo $USER_ID $API_TOKEN
 DATA='{"text":"todo wowee", "type":"todo"}'
 
 
-#curl https://habitica.com/api/v3/tasks/user -s -X GET \
+curl https://habitica.com/api/v3/tasks/user -s -X GET \
+    -H "Content-Type:application/json" \
+    -H "x-api-user: $USER_ID " \
+    -H "x-api-key: $API_TOKEN" \ | jq .data[0]
+
+#curl https://habitica.com/api/v3/tasks/user -s -X POST \
     #-H "Content-Type:application/json" \
     #-H "x-api-user: $USER_ID " \
     #-H "x-api-key: $API_TOKEN" \
-
-curl https://habitica.com/api/v3/tasks/user -s -X POST \
-    -H "Content-Type:application/json" \
-    -H "x-api-user: $USER_ID " \
-    -H "x-api-key: $API_TOKEN" \
-    -d "$DATA"
+    #-d "$DATA"
 
 
 
