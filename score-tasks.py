@@ -1,39 +1,61 @@
 
 from hab import HabUser
 
+import time
 
+
+from rich.console import Console
+console = Console()
+console.print('Counting incomplete tasks: ', style='bold yellow', end='')
 
 
 user = HabUser()
 
 
-
-ntasks = 0
-tasks = user.tasks('GET')
+n_incomp = 0
+tasks = user.get_tasks()
 
 for task in tasks:
-
     if 'alias' in task.keys():
-        ntasks +=1
+        n_incomp +=1
 
-print(ntasks)
+console.print(f'{n_incomp}.', style='bold yellow')
 
 
-
-dummy_habit_data ={
+dummyhabit_data ={
     'text':'Dummy Habit',
     'type':'habit',
     'alias': 'dummyhabit_xyzpa',
-    'priority':2,
+    'priority':1.5,
     'up':False,
     'down':True,
 }
 
 
 
-for _ in range(ntasks):
+for i in range(n_incomp):
+    console.print(f'{i+1}', style='bold yellow', end='\r')
 
-    user.
+    user.post_tasks(dummyhabit_data)
+    tasks = user.get_tasks()
+    for task in tasks:
+        if 'alias' in task.keys():
+            if task['alias']=='dummyhabit_xyzpa':
+
+                dummyhabit_id = task['id']
+
+    user.score_task(dummyhabit_id, 'down')
+    user.delete_task(dummyhabit_id)
+
+
+console.print(f'Done.', style='bold yellow')
+
+
+
+
+
+
+
 
 
 

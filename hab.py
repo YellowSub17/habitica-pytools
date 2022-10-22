@@ -1,6 +1,6 @@
 import datetime
-import json
 import requests
+import json
 
 
 from rich.console import Console
@@ -10,6 +10,12 @@ console = Console()
 
 API_URL = 'https://habitica.com/api/v3'
 
+
+
+
+
+
+    
 
 
 
@@ -31,89 +37,60 @@ class HabUser:
 
 
 
-
-#     def get_tasks(self):
-
-        # res = requests.request('GET', f'{API_URL}/tasks/user',
-                               # headers=self.req_headers)
-        # res_json = res.json()
-
-        # if not res_json['success']:
-            # console.print('Request Failed', style='bold red')
-            # console.print(res_json)
-            # quit()
-
-
-        # console.print('Request Success', style='bold green')
-        # console.print(res_json)
-
-        # return res_json['data']
-
-
-    # def post_tasks(self, data):
-        # res = requests.request('POST', f'{API_URL}/tasks/user',
-                               # headers=self.req_headers, json=data)
-        # res_json = res.json()
-
-        # if not res_json['success']:
-            # console.print('Request Failed', style='bold red')
-            # console.print(res_json)
-            # quit()
-
-        # console.print('Request Success', style='bold green')
-        # console.print(res_json)
-
-
-    def tasks(self, method, data=[]):
-        res = requests.request(method, f'{API_URL}/tasks/user',
-                               headers=self.req_headers, json=data)
-        res_json = res.json()
-
+    def print_res(self,res_json):
         if not res_json['success']:
             console.print('Request Failed', style='bold red')
             console.print(res_json)
             quit()
+        # else:
+            # console.print('Request Success', style='bold green')
+            # console.print(res_json)
 
 
-        console.print('Request Success', style='bold green')
-        console.print(res_json)
 
+    def get_tasks(self, task_type=None):
+        # console.print('GET tasks: ', style='bold green', end='')
+        if task_type is not None:
+            params={'type':task_type}
+            res = requests.request('GET', f'{API_URL}/tasks/user',
+                               headers=self.req_headers,params=params)
+        else:
+            res = requests.request('GET', f'{API_URL}/tasks/user',
+                               headers=self.req_headers)
+        res_json = res.json()
+        self.print_res(res_json)
+        return res_json['data']
+
+
+    def post_tasks(self, data=[]):
+        # console.print('POST tasks: ', style='bold green', end='')
+        res = requests.request('POST', f'{API_URL}/tasks/user',
+                                   headers=self.req_headers, json=data)
+        res_json = res.json()
+        self.print_res(res_json)
         return res_json['data']
 
 
 
 
-
-
-
-
-
     def delete_task(self, task_id):
+        # console.print(f'DELETE task: ', style='bold green', end='')
         res = requests.request('DELETE', f'{API_URL}/tasks/{task_id}',
                                headers=self.req_headers)
         res_json = res.json()
-
-        if not res_json['success']:
-            console.print('Request Failed', style='bold red')
-            console.print(res_json)
-            quit()
-
-        console.print('Request Success', style='bold green')
-        console.print(res_json)
-
+        self.print_res(res_json)
+        return res_json['data']
 
     def score_task(self, task_id, updown):
-        res = requests.request('post', f'{API_URL}/tasks/{task_id}/score/{updown}',
+        # console.print('SCORE task: ', style='bold green', end='')
+        res = requests.request('POST', f'{API_URL}/tasks/{task_id}/score/{updown}',
                                headers=self.req_headers)
         res_json = res.json()
+        self.print_res(res_json)
+        return res_json['data']
 
-        if not res_json['success']:
-            console.print('Request Failed', style='bold red')
-            console.print(res_json)
-            quit()
 
-        console.print('Request Success', style='bold green')
-        console.print(res_json)
+
 
 
 
