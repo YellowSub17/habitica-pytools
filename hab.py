@@ -21,7 +21,7 @@ API_URL = 'https://habitica.com/api/v3'
 
 class HabUser:
 
-    def __init__(self, creds_file='./credentials.json'):
+    def __init__(self, creds_file='./credentials/credentials.json'):
 
         self.load_credentials(creds_file)
         self.req_headers = {"x-api-user": self.USER_ID,"x-api-key": self.API_TOKEN}

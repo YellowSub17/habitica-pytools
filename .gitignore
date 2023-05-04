@@ -1,5 +1,4 @@
-credentials.json
-debug-credentials.json
-real-credentials.json
+credentials/*
+__pycache__/
 
 
